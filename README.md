@@ -11,5 +11,13 @@
 
 ## To Run file
 ```
-docker-compose up -d
+sudo docker-compose up -d
 ```
+
+## On Linux
+
+In your browser, go to : `localhost:3000`
+
+## On Windows
+
+Check your Docker_Toolbox machine IP and in your browser go to: `machineip:3000`
