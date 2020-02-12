@@ -8,3 +8,8 @@
 - Backend
 - Database
 - Frontend
+
+## To Run file
+```
+docker-compose up -d
+```
