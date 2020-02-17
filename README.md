@@ -11,7 +11,7 @@
 
 ## To Run file
 ```
-sudo docker-compose up -d
+sudo docker-compose up -d --build
 ```
 
 ## On Linux
