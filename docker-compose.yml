@@ -23,6 +23,22 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+  backend:
+    build: https://github.com/vives-projectwerk-2-2020/back-end.git
+    ports:
+      - 6000:6000
 volumes:
   influxdb-storage:
   grafana-storage:
+  db:
+  adminer:

@@ -20,7 +20,7 @@ In your browser, go to : `localhost:3000`
 
 ## On Windows
 
-Check your Docker_Toolbox machine IP and in your browser go to: `machineip:3000`
+Check your Docker_Toolbox machine IP and in your browser go to: `192.168.99.100:3000`
 
 # InfluxDB
 
