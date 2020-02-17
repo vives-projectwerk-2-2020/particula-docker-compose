@@ -28,10 +28,10 @@ Check your Docker_Toolbox machine IP and in your browser go to: `192.168.99.100:
 
 ## Sending data with Postman
 
-To push data to `particula-influxdb_data` with postman create following POST request:
+To push data to `particulaInfluxDB` with postman create following POST request:
 
 ```
-POST http://localhost:8086/write?db=particula-influxdb_data&precision=s
+POST http://localhost:8086/write?db=particulaInfluxDB&precision=s
 ```
 
 body
@@ -45,5 +45,5 @@ sensors,sensor_id="sensor_01",location="lab2.80" temp=21.5 1581880318
 Following is an example to view all data within `sensors`:
 
 ```
-GET http://localhost:8086/query?db=particula-influxdb_data&q=select * from sensors
+GET http://localhost:8086/query?db=particula-influxdb_data&q=select temp from sensors
 ```
