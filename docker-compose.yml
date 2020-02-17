@@ -39,6 +39,10 @@ services:
     ports:
       - 3000:3000
     command: php -S 0.0.0.0:3000
+  lorawan: 
+    build: https://github.com/vives-projectwerk-2-2020/lorawan-listener.git
+    ports: 
+      - 5000:5000
 volumes:
   influxdb-storage:
   grafana-storage:
