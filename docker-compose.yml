@@ -34,7 +34,7 @@ services:
     ports:
       - 8080:8080
   backend:
-    build: https://github.com/vives-projectwerk-2-2020/back-end.git
+    build: https://github.com/vives-projectwerk-2-2020/back-end.git#master
     restart: always
     ports:
       - 3000:3000
