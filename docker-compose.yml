@@ -33,6 +33,10 @@ services:
     restart: always
     ports:
       - 8080:8080
+  backend:
+    build: https://github.com/vives-projectwerk-2-2020/back-end.git
+    ports:
+      - 6000:6000
 volumes:
   influxdb-storage:
   grafana-storage:
