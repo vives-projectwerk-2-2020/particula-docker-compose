@@ -23,16 +23,18 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
-    db:
-      image: mariadb
-      restart: always
-      environment:
-        MYSQL_ROOT_PASSWORD: example
-    adminer:
-      image: adminer
-      restart: always
-      ports:
-        - 8080:8080
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
 volumes:
   influxdb-storage:
   grafana-storage:
+  db:
+  adminer:
