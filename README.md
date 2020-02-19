@@ -1,13 +1,12 @@
 # particula-docker-compose
 
+# Particula UML
+
+![](images/uml-project.png)
+
 # TODO 
 
-- TTN Listener
-- InfluxDB
-- Grafana
-- Backend
-- Database
-- Frontend
+Issues on Redmine.
 
 ## To Run file
 ```
