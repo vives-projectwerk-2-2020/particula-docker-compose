@@ -28,17 +28,19 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: example
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
   backend:
-    build: https://github.com/vives-projectwerk-2-2020/back-end.git#master
+    build: https://github.com/vives-projectwerk-2-2020/back-end.git
     restart: always
     ports:
       - 3000:3000
     command: php -S 0.0.0.0:3000
+  frontend:
+    build: https://github.com/vives-projectwerk-2-2020/Frontend-Hello-World.git
+    restart: always
+    ports:
+      - 8050:8050
+    command: 
+
 volumes:
   influxdb-storage:
   grafana-storage:
