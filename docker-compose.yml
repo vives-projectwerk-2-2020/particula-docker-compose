@@ -37,12 +37,8 @@ services:
   lorawan: 
     build: https://github.com/vives-projectwerk-2-2020/lorawan-listener.git#dev
     restart: always
-    environment: 
-      - APP_ID=maximva-loratest
-      - ACCESSKEY=ttn-account-v2.XAZxgVSlF8PG9Y_njU_-3OnDWGsQvuqyyyAcb4SWDvk
-      - REAL_TIME_IP=172.16.101.26
-      - INFLUX_IP=192.168.99.100
-      - INFLUX_PORT=8086
+    env_file:
+      - .env
     ports: 
       - 5000:5000
   frontend:
