@@ -54,4 +54,3 @@ volumes:
   influxdb-storage:
   grafana-storage:
   db:
-  adminer:
