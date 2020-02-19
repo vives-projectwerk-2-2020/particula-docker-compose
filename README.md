@@ -13,13 +13,38 @@ Issues on Redmine.
 sudo docker-compose up -d --build
 ```
 
+# Connecting to the services
+
 ## On Linux
 
+### For Back-end
 In your browser, go to : `localhost:3000`
+
+### For Grafana
+In your browser, go to : `localhost:3001`
+
+### For InfluxDB
+In your browser, go to : `localhost:8086`
+
+### For Front-end
+In your browser, go to : `localhost:8080`
+
 
 ## On Windows
 
-Check your Docker_Toolbox machine IP and in your browser go to: `192.168.99.100:3000`
+Check your Docker_Toolbox machine IP and in your browser go to: `machineip:port`
+
+### For Back-end
+In your browser, go to : `machineip:3000`
+
+### For Grafana
+In your browser, go to : `machineip:3001`
+
+### For InfluxDB
+In your browser, go to : `machineip:8086`
+
+### For Front-end
+In your browser, go to : `machineip:8080`
 
 # InfluxDB
 
