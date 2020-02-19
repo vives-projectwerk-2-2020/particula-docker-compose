@@ -29,32 +29,20 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: example
   backend:
-<<<<<<< HEAD
     build: https://github.com/vives-projectwerk-2-2020/back-end.git
-=======
-    build: https://github.com/vives-projectwerk-2-2020/back-end.git#develop
->>>>>>> ac4b69c1d514f7ab29081c73441717318a8116a4
     restart: always
     ports:
       - 3000:3000
     command: php -S 0.0.0.0:3000
   lorawan: 
-<<<<<<< HEAD
     build: https://github.com/vives-projectwerk-2-2020/lorawan-listener.git
-=======
-    build: https://github.com/vives-projectwerk-2-2020/lorawan-listener.git#dev
->>>>>>> ac4b69c1d514f7ab29081c73441717318a8116a4
     restart: always
     env_file:
       - .env
     ports: 
       - 5000:5000
   frontend:
-<<<<<<< HEAD
     build: https://github.com/vives-projectwerk-2-2020/FrontendApplication
-=======
-    build: https://github.com/vives-projectwerk-2-2020/FrontendApplication#develop
->>>>>>> ac4b69c1d514f7ab29081c73441717318a8116a4
     restart: always
     ports:
       - 8080:80
