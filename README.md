@@ -47,3 +47,9 @@ Following is an example to view all data within `sensors`:
 ```
 GET http://localhost:8086/query?db=particula-influxdb_data&q=select temp from sensors
 ```
+
+## Clearing series
+To remove all data in a measurement execute following query:
+```
+DROP SERIES FROM sensors
+```
