@@ -46,7 +46,7 @@ services:
     ports: 
       - 5000:5000
   frontend:
-    build: https://github.com/vives-projectwerk-2-2020/Frontend-Hello-World.git#devops
+    build: https://github.com/vives-projectwerk-2-2020/Frontend-Hello-World.git
     restart: always
     ports:
       - 8080:80
