@@ -9,8 +9,15 @@
 Issues on Redmine.
 
 ## To Run file
+### On Linux
 ```
 sudo docker-compose up -d --build
+```
+
+### On Windows
+In Docker Quickstart Terminal:
+```
+docker-compose up -d --build
 ```
 
 # Connecting to the services
