@@ -42,7 +42,7 @@ services:
     ports: 
       - 5000:5000
   frontend:
-    build: https://github.com/vives-projectwerk-2-2020/FrontendApplication.git#develop
+    build: https://github.com/vives-projectwerk-2-2020/FrontendApplication.git
     restart: always
     ports:
       - 8080:80
