@@ -38,8 +38,7 @@ services:
     build: https://github.com/vives-projectwerk-2-2020/Frontend-Hello-World.git
     restart: always
     ports:
-      - 8050:8050
-    command: 
+      - 8080:8080
 
 volumes:
   influxdb-storage:
