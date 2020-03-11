@@ -43,55 +43,75 @@ Run the terminal and wait a couple of moments until the terminal is open and act
 
 ![](images/docker-booted-terminal.png)
 
-This IP is very important to connect to your local containers.
+This IP is very important to connect to your local containers. -> More about this later
 
 ## Important Commands:
 
 
-## To Run file
-### On Linux
+### To Run the docker-compose file
+#### On Linux
 ```
 sudo docker-compose up -d --build
 ```
 
-### On Windows
+#### On Windows
 In Docker Quickstart Terminal:
 ```
 docker-compose up -d --build
 ```
 
-# Connecting to the services
+### To check the running containers:
+```
+docker ps
+```
 
-## On Linux
+### Killing containers:
+```
+docker kill 
+```
 
-### For Back-end
+You can use this command to kill 1 container that you select by selecting `container name or container id`
+
+Example:
+
+```
+docker kill particula-docker-compose_frontend_1
+```
+
+### Killing all containers:
+```
+docker kill $(docker ps -q)
+```
+
+## Connecting to the services
+
+### On Linux
+
+#### For Back-end
 In your browser, go to : `localhost:3000`
 
-### For Grafana
+#### For Grafana
 In your browser, go to : `localhost:3001`
 
-### For InfluxDB
+#### For InfluxDB
 In your browser, go to : `localhost:8086`
 
-### For Front-end
+#### For Front-end
 In your browser, go to : `localhost:8080`
 
 
-## On Windows
+### On Windows
 
 Check your Docker_Toolbox machine IP and in your browser go to: `machineip:port`
 
-### For Back-end
-In your browser, go to : `machineip:3000`
+#### For Back-end
+In your browser, go to : `machineip:8080`
 
-### For Grafana
+####  For Grafana
 In your browser, go to : `machineip:3001`
 
-### For InfluxDB
-In your browser, go to : `machineip:8086`
-
-### For Front-end
-In your browser, go to : `machineip:8080`
+####  For Front-end
+In your browser, go to : `machineip`
 
 # InfluxDB
 
