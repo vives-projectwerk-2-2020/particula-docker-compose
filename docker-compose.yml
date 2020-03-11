@@ -7,10 +7,8 @@ services:
     volumes:
       - influxdb-storage:/var/lib/influxdb
     restart: always
-    environment:
-      - INFLUXDB_DB=particulaInfluxDB
-      - INFLUXDB_ADMIN_USER=${INFLUXDB_USERNAME}
-      - INFLUXDB_ADMIN_PASSWORD=${INFLUXDB_PASSWORD}
+    env_file:
+      - .env
   grafana:
     image: grafana/grafana:latest
     ports:
@@ -32,21 +30,21 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: example
   backend:
-    image: https://docker.pkg.github.com/vives-projectwerk-2-2020/back-end/particula-back-end-dev
+    image: docker.pkg.github.com/vives-projectwerk-2-2020/back-end/particula-back-end:develop
     restart: always
     env_file:
       - .env
     ports:
       - 8080:3000
   lorawan: 
-    image: https://docker.pkg.github.com/vives-projectwerk-2-2020/lorawan-listener/particula-lorawan-listener-dev
+    image: docker.pkg.github.com/vives-projectwerk-2-2020/lorawan-listener/particula-lorawan-listener:dev
     restart: always
     env_file:
       - .env
     ports: 
       - 5000
   frontend:
-    image: https://docker.pkg.github.com/vives-projectwerk-2-2020/Frontend/particula-frontend-dev
+    image: docker.pkg.github.com/vives-projectwerk-2-2020/frontend/particula-frontend:develop
     restart: always
     ports:
       - 80:80
