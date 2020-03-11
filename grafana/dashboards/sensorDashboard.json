@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 1,
-  "iteration": 1583913577815,
+  "iteration": 1583917490282,
   "links": [],
   "panels": [
     {
@@ -36,6 +36,7 @@
             "lastNotNull"
           ],
           "defaults": {
+            "decimals": 2,
             "mappings": [
               {
                 "id": 0,
@@ -195,7 +196,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Temperatures",
+      "title": "Temperature",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -642,7 +643,7 @@
     ]
   },
   "timezone": "",
-  "title": "Temperatures",
+  "title": "Particula sensor",
   "uid": "t6CBW5wWk",
   "version": 2
 }
