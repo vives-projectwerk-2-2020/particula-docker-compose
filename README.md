@@ -37,11 +37,11 @@ Get the latest `.exe` version for the toolbox.
 
 You can run the `Docker Quickstart Terminal` to use the Docker environment.
 
-![](images/docker-quickstart-terminal.png)
+![](images/docker-quickstart-terminal.PNG)
 
 Run the terminal and wait a couple of moments until the terminal is open and active. You will get a `machine IP`.
 
-![](images/docker-booted-terminal.png)
+![](images/docker-booted-terminal.PNG)
 
 This IP is very important to connect to your local containers. -> More about this later
 
@@ -93,11 +93,8 @@ In your browser, go to : `localhost:3000`
 #### For Grafana
 In your browser, go to : `localhost:3001`
 
-#### For InfluxDB
-In your browser, go to : `localhost:8086`
-
 #### For Front-end
-In your browser, go to : `localhost:8080`
+In your browser, go to : `localhost`
 
 
 ### On Windows
@@ -147,9 +144,22 @@ DROP SERIES FROM sensors
 
 # Docker Image on the Server
 
+You want to create an image through Github Actions.
+
+![](images/image-creating-1.PNG)
+
+![](images/image-creating-2.PNG)
+
+![](images/image-creating-3.PNG)
+
+See the .github folder in the project for an example.
+
 Make sure `pass` is installed on the server before adding your personal github tokens to the server.
 
-You want to create a github action to make an image from the Dockerfile.
+Now you want to create a personal github token to load repositories on your server.
+
+Run this command on your server:
 ```
  docker login -u USERNAME docker.pkg.github.com
  -> ACCESTOKEN
+```
