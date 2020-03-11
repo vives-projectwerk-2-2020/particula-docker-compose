@@ -1,0 +1,10 @@
+apiVersion: 1
+
+datasources:
+- name: InfluxDB
+  type: influxdb
+  access: proxy
+  url: http://$INFLUX_IP:$INFLUX_PORT
+  password: $INFLUX_PASSWORD
+  user: $INFLUX_USERNAME
+  database: $INFLUX_DB_NAME

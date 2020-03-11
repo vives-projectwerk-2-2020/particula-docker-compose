@@ -3,7 +3,7 @@ services:
   influxdb:
     image: influxdb:latest
     ports:
-      - '8086:8086'
+      - 8086
     volumes:
       - influxdb-storage:/var/lib/influxdb
     restart: always
@@ -16,36 +16,52 @@ services:
     ports:
       - 3001:3000
     volumes:
-      - grafana-storage:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/etc/grafana/dashboards
     depends_on:
       - influxdb
     restart: always
     environment:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+    env_file:
+      - .env
   db:
     image: mariadb
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: example
   backend:
+<<<<<<< HEAD
     build: https://github.com/vives-projectwerk-2-2020/back-end.git
+=======
+    image: https://docker.pkg.github.com/vives-projectwerk-2-2020/back-end/particula-back-end-dev
+>>>>>>> 92c1654667303199a255d05776da54795a66142d
     restart: always
+    env_file:
+      - .env
     ports:
-      - 3000:3000
-    command: php -S 0.0.0.0:3000
+      - 8080:3000
   lorawan: 
+<<<<<<< HEAD
     build: https://github.com/vives-projectwerk-2-2020/lorawan-listener.git
+=======
+    image: https://docker.pkg.github.com/vives-projectwerk-2-2020/lorawan-listener/particula-lorawan-listener-dev
+>>>>>>> 92c1654667303199a255d05776da54795a66142d
     restart: always
     env_file:
       - .env
     ports: 
-      - 5000:5000
+      - 5000
   frontend:
+<<<<<<< HEAD
     build: https://github.com/vives-projectwerk-2-2020/Frontend.git
+=======
+    image: https://docker.pkg.github.com/vives-projectwerk-2-2020/Frontend/particula-frontend-dev
+>>>>>>> 92c1654667303199a255d05776da54795a66142d
     restart: always
     ports:
-      - 8080:80
+      - 80:80
 volumes:
   influxdb-storage:
   grafana-storage:

@@ -8,50 +8,110 @@
 
 Issues on Redmine.
 
-## To Run file
-### On Linux
+# TUTORIAL
+
+## What is Docker?
+
+Docker contains your code.
+
+The Docker files in the frontend & backend project are the building blocks for the `docker-compose`.
+
+With `docker-compose` we load the Docker files, which installs the required packages & services we need to run the code.
+
+## Installing Docker
+
+### On linux
+
+```
+sudo apt-get install docker
+sudo apt-get install docker-compose
+```
+
+### On Windows
+
+You need to get the docker toolbox. `https://github.com/docker/toolbox/releases`
+
+Get the latest `.exe` version for the toolbox.
+
+![](images/docker-toolbox-install.JPG)
+
+You can run the `Docker Quickstart Terminal` to use the Docker environment.
+
+![](images/docker-quickstart-terminal.png)
+
+Run the terminal and wait a couple of moments until the terminal is open and active. You will get a `machine IP`.
+
+![](images/docker-booted-terminal.png)
+
+This IP is very important to connect to your local containers. -> More about this later
+
+## Important Commands:
+
+
+### To Run the docker-compose file
+#### On Linux
 ```
 sudo docker-compose up -d --build
 ```
 
-### On Windows
+#### On Windows
 In Docker Quickstart Terminal:
 ```
 docker-compose up -d --build
 ```
 
-# Connecting to the services
+### To check the running containers:
+```
+docker ps
+```
 
-## On Linux
+### Killing containers:
+```
+docker kill 
+```
 
-### For Back-end
+You can use this command to kill 1 container that you select by selecting `container name or container id`
+
+Example:
+
+```
+docker kill particula-docker-compose_frontend_1
+```
+
+### Killing all containers:
+```
+docker kill $(docker ps -q)
+```
+
+## Connecting to the services
+
+### On Linux
+
+#### For Back-end
 In your browser, go to : `localhost:3000`
 
-### For Grafana
+#### For Grafana
 In your browser, go to : `localhost:3001`
 
-### For InfluxDB
+#### For InfluxDB
 In your browser, go to : `localhost:8086`
 
-### For Front-end
+#### For Front-end
 In your browser, go to : `localhost:8080`
 
 
-## On Windows
+### On Windows
 
 Check your Docker_Toolbox machine IP and in your browser go to: `machineip:port`
 
-### For Back-end
-In your browser, go to : `machineip:3000`
+#### For Back-end
+In your browser, go to : `machineip:8080`
 
-### For Grafana
+####  For Grafana
 In your browser, go to : `machineip:3001`
 
-### For InfluxDB
-In your browser, go to : `machineip:8086`
-
-### For Front-end
-In your browser, go to : `machineip:8080`
+####  For Front-end
+In your browser, go to : `machineip`
 
 # InfluxDB
 
@@ -76,7 +136,7 @@ sensors,sensor_id="sensor_01",location="lab2.80" temp=21.5 1581880318
 Following is an example to view all data within `sensors`:
 
 ```
-GET http://localhost:8086/query?db=particula-influxdb_data&q=select * from sensors
+GET http://localhost:8086/query?db=particulaInfluxDB&q=select * from sensors
 ```
 
 ## Clearing series
@@ -84,3 +144,13 @@ To remove all data in a measurement execute following query:
 ```
 DROP SERIES FROM sensors
 ```
+
+# Docker Image on the Server
+
+Make sure `pass` is installed on the server before adding your personal github tokens to the server.
+
+You want to create a github action to make an image from the Dockerfile.
+```
+ docker login -u USERNAME docker.pkg.github.com
+ -> ACCESTOKEN
+ ```
