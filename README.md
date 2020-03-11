@@ -76,7 +76,7 @@ sensors,sensor_id="sensor_01",location="lab2.80" temp=21.5 1581880318
 Following is an example to view all data within `sensors`:
 
 ```
-GET http://localhost:8086/query?db=particula-influxdb_data&q=select temp from sensors
+GET http://localhost:8086/query?db=particulaInfluxDB&q=select * from sensors
 ```
 
 ## Clearing series
