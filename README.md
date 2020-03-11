@@ -8,6 +8,46 @@
 
 Issues on Redmine.
 
+# TUTORIAL
+
+## What is Docker?
+
+Docker contains your code.
+
+The Docker files in the frontend & backend project are the building blocks for the `docker-compose`.
+
+With `docker-compose` we load the Docker files, which installs the required packages & services we need to run the code.
+
+## Installing Docker
+
+### On linux
+
+```
+sudo apt-get install docker
+sudo apt-get install docker-compose
+```
+
+### On Windows
+
+You need to get the docker toolbox. `https://github.com/docker/toolbox/releases`
+
+Get the latest `.exe` version for the toolbox.
+
+![](images/docker-toolbox-install.JPG)
+
+You can run the `Docker Quickstart Terminal` to use the Docker environment.
+
+![](images/docker-quickstart-terminal.png)
+
+Run the terminal and wait a couple of moments until the terminal is open and active. You will get a `machine IP`.
+
+![](images/docker-booted-terminal.png)
+
+This IP is very important to connect to your local containers.
+
+## Important Commands:
+
+
 ## To Run file
 ### On Linux
 ```
