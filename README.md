@@ -84,3 +84,12 @@ To remove all data in a measurement execute following query:
 ```
 DROP SERIES FROM sensors
 ```
+
+# Docker Image on the Server
+
+Make sure `pass` is installed on the server before adding your personal github tokens to the server.
+
+You want to create a github action to make an image from the Dockerfile.
+```
+ docker login -u USERNAME docker.pkg.github.com
+ -> ACCESTOKEN
