@@ -16,34 +16,37 @@ services:
     ports:
       - 3001:3000
     volumes:
-      - grafana-storage:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/etc/grafana/dashboards
     depends_on:
       - influxdb
     restart: always
     environment:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+    env_file:
+      - .env
   db:
     image: mariadb
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: example
   backend:
-    build: https://github.com/vives-projectwerk-2-2020/back-end.git#test-env
+    image: https://docker.pkg.github.com/vives-projectwerk-2-2020/back-end/particula-back-end-dev
     restart: always
     env_file:
       - .env
     ports:
       - 8080:3000
   lorawan: 
-    build: https://github.com/vives-projectwerk-2-2020/lorawan-listener.git#dev
+    image: https://docker.pkg.github.com/vives-projectwerk-2-2020/lorawan-listener/particula-lorawan-listener-dev
     restart: always
     env_file:
       - .env
     ports: 
       - 5000
   frontend:
-    build: https://github.com/vives-projectwerk-2-2020/Frontend.git#develop
+    image: https://docker.pkg.github.com/vives-projectwerk-2-2020/Frontend/particula-frontend-dev
     restart: always
     ports:
       - 80:80
