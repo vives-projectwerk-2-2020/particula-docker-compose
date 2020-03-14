@@ -30,21 +30,21 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: example
   backend:
-    image: docker.pkg.github.com/vives-projectwerk-2-2020/back-end/particula-back-end:master
+    image: docker.pkg.github.com/vives-projectwerk-2-2020/back-end/particula-back-end
     restart: always
     env_file:
       - .env
     ports:
       - 8080:3000
   lorawan: 
-    image: docker.pkg.github.com/vives-projectwerk-2-2020/lorawan-listener/particula-lorawan-listener:master
+    image: docker.pkg.github.com/vives-projectwerk-2-2020/lorawan-listener/particula-lorawan-listener
     restart: always
     env_file:
       - .env
     ports: 
       - 5000
   frontend:
-    image: docker.pkg.github.com/vives-projectwerk-2-2020/frontend/particula-frontend:master
+    image: docker.pkg.github.com/vives-projectwerk-2-2020/frontend/particula-frontend
     restart: always
     ports:
       - 80:80
