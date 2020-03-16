@@ -1,6 +1,9 @@
 version: '3'
-services:
 
+services:
+  ################################################
+  ####        Traefik Proxy Setup           #####
+  ###############################################
   traefik:
     image: traefik:v2.0
     restart: always
@@ -27,7 +30,7 @@ services:
       - --entrypoints.web-secured.address=:443 # <== Defining an entrypoint for https on port :443 named web-secured
       ## Certificate Settings (Let's Encrypt) -  https://docs.traefik.io/https/acme/#configuration-examples ##
       - --certificatesresolvers.mytlschallenge.acme.tlschallenge=true # <== Enable TLS-ALPN-01 to generate and renew ACME certs
-      - --certificatesresolvers.mytlschallenge.acme.email=arno.willems@student.vives.com # <== Setting email for certs
+      - --certificatesresolvers.mytlschallenge.acme.email=arno.willems@student.vives.be # <== Setting email for certs
       - --certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json # <== Defining acme file to store cert information
     volumes:
       - ./letsencrypt:/letsencrypt # <== Volume for certs (TLS)
@@ -55,33 +58,29 @@ services:
 
   grafana:
     image: grafana/grafana:latest
-    # container_name: grafana
-    ports:
-      - 3000
+    container_name: grafana
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
       - ./grafana/dashboards:/etc/grafana/dashboards
-      # - ./grafana/conf/grafana.ini
     depends_on:
       - influxdb
     restart: always
     environment:
-      # - GF_SERVER_DOMAIN=${DOMAIN}
-      - GF_SERVER_ROOT_URL=http://${DOMAIN}/grafana
+      - GF_SERVER_ROOT_URL=http://localhost/grafana
       - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
-      # - GRAFANA_OPTS=--prefix=/grafana
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
     env_file:
       - .env
     networks:
       - web
       - backend
     labels:
-      - traefik.enable=true
-      - "traefik.http.routers.grafana.rule=Host(`${DOMAIN}`) && PathPrefix(`/grafana`)"
-      - "traefik.http.middlewares.grafana-stripprefix.prefixes=/grafana"
-      - "traefik.http.routers.grafana.middlewares=grafana-stripprefix"
-      - traefik.http.routers.grafana.service=grafana"
+      #### Labels define the behavior and rules of the traefik proxy for this container ####
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Path(`/grafana`) || PathPrefix(`/grafana/`)"
+      - 'traefik.http.routers.grafana.entrypoints=web'
+      - 'traefik.http.middlewares.grafana-compress.compress=true'
 
   db:
     image: mariadb
