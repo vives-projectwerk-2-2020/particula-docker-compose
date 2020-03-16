@@ -25,7 +25,6 @@ services:
       ## Entrypoints Settings - https://docs.traefik.io/routing/entrypoints/#configuration ##
       - --entrypoints.web.address=:80 # <== Defining an entrypoint for port :80 named web
       - --entrypoints.web-secured.address=:443 # <== Defining an entrypoint for https on port :443 named web-secured
-      - --entrypoints.grafana.address=:3001
       ## Certificate Settings (Let's Encrypt) -  https://docs.traefik.io/https/acme/#configuration-examples ##
       - --certificatesresolvers.mytlschallenge.acme.tlschallenge=true # <== Enable TLS-ALPN-01 to generate and renew ACME certs
       - --certificatesresolvers.mytlschallenge.acme.email=arno.willems@student.vives.com # <== Setting email for certs
@@ -56,28 +55,33 @@ services:
 
   grafana:
     image: grafana/grafana:latest
+    # container_name: grafana
     ports:
       - 3000
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
       - ./grafana/dashboards:/etc/grafana/dashboards
+      # - ./grafana/conf/grafana.ini
     depends_on:
       - influxdb
     restart: always
     environment:
+      # - GF_SERVER_DOMAIN=${DOMAIN}
+      - GF_SERVER_ROOT_URL=http://${DOMAIN}/grafana
       - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      # - GRAFANA_OPTS=--prefix=/grafana
     env_file:
       - .env
     networks:
       - web
       - backend
     labels:
-      #### Labels define the behavior and rules of the traefik proxy for this container ####
-      - "traefik.enable=true" # <== Enable traefik to proxy this container
-      - "traefik.http.routers.grafana.rule=Host(`localhost/grafana`)" # <== Your Domain Name goes here for the http rule
-      - "traefik.http.routers.grafana.entrypoints=grafana" # <== Defining the entrypoint for http, **ref: line 30
-      - "traefik.http.routers.grafana-secured.tls.certresolver=mytlschallenge" # <== Defining certsresolvers for https
+      - traefik.enable=true
+      - "traefik.http.routers.grafana.rule=Host(`${DOMAIN}`) && PathPrefix(`/grafana`)"
+      - "traefik.http.middlewares.grafana-stripprefix.prefixes=/grafana"
+      - "traefik.http.routers.grafana.middlewares=grafana-stripprefix"
+      - traefik.http.routers.grafana.service=grafana"
 
   db:
     image: mariadb
