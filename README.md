@@ -125,12 +125,12 @@ POST http://localhost:8086/write?db=particulaInfluxDB&precision=s
 body
 
 ```
-sensors,sensor_id="sensor_01",location="lab2.80" temp=21.5 1581880318
+sensors,sensor_id=sensor-test humidity=59,pm10=23,pm25=12,temperature=21.5 1581880318
 ```
 
 ## Viewing data with Postman
 
-Following is an example to view all data within `sensors`:
+In case the port is left unchanged (can be checked with docker ps) following is an example to view all data within `sensors`:
 
 ```
 GET http://localhost:8086/query?db=particulaInfluxDB&q=select * from sensors
