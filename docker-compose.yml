@@ -10,7 +10,7 @@ services:
     container_name: traefik
     ports:
       - "80:80" # <== http
-      - "8008:8008" # <== moved dashboard to :8008
+      - "${DASHBOARD_PORT}:${DASHBOARD_PORT}" # <== moved dashboard to :8008
       - "443:443" # <== https
     command:
     #### These are the CLI commands that will configure Traefik and tell it how to work! ####
@@ -26,7 +26,7 @@ services:
       - --providers.file.filename=/dynamic.yml # <== Referring to a dynamic configuration file
       - --providers.docker.network=web # <== Operate on the docker network named web
       ## Entrypoints Settings - https://docs.traefik.io/routing/entrypoints/#configuration ##
-      - --entrypoints.dashboard.address=:8008
+      - --entrypoints.dashboard.address=:${DASHBOARD_PORT}
       - --entrypoints.web.address=:80 # <== Defining an entrypoint for port :80 named web
       - --entrypoints.web-secured.address=:443 # <== Defining an entrypoint for https on port :443 named web-secured
       ## Certificate Settings (Let's Encrypt) -  https://docs.traefik.io/https/acme/#configuration-examples ##
