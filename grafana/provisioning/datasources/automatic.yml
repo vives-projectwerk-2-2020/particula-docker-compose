@@ -5,4 +5,4 @@ datasources:
   type: influxdb
   access: proxy
   url: http://$INFLUX_IP:$INFLUX_PORT
-  database: $INFLUX_DB
+  database: $INFLUX_DB_NAME
