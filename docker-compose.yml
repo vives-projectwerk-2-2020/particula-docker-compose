@@ -48,74 +48,9 @@ services:
       - "traefik.http.middlewares.auth.basicauth.headerField=X-WebAuth-User"
       - "traefik.http.middlewares.auth.basicauth.removeheader=true"
 
-  influxdb:
-    image: influxdb:latest
-    container_name: influxdb
-    ports:
-      - 8086
-    volumes:
-      - influxdb-storage:/var/lib/influxdb
-    restart: always
-    env_file:
-      - .env
-    networks:
-      - backend
-
-  grafana:
-    image: grafana/grafana:latest
-    container_name: grafana
-    volumes:
-      - ./grafana/provisioning:/etc/grafana/provisioning
-      - ./grafana/dashboards:/etc/grafana/dashboards
-    depends_on:
-      - influxdb
-    restart: always
-    environment:
-      - GF_SERVER_ROOT_URL=https://grafana.${DOMAIN}
-      - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
-      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
-      - GF_SERVER_SERVE_FROM_SUB_PATH=true
-    env_file:
-      - .env
-    networks:
-      - web
-      - backend
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.grafana.rule=Host(`grafana.${DOMAIN}`)
-      - traefik.http.routers.grafana.tls=true
-      - traefik.http.routers.grafana.tls.certresolver=le
-      - traefik.http.middlewares.grafana.compress=true
-      - traefik.http.routers.grafana.middlewares=grafana@docker
-
-  db:
-    image: mariadb
-    container_name: db
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: example
-    networks:
-      - backend
-
-  backend:
-    image: docker.pkg.github.com/vives-projectwerk-2-2020/back-end/particula-back-end-dev
-    container_name: backend
-    restart: always
-    env_file:
-      - .env
-    ports:
-      - 8080:3000
-    networks:
-      - backend
-
-  lorawan: 
-    image: docker.pkg.github.com/vives-projectwerk-2-2020/lorawan-listener/particula-lorawan-listener-dev
-    container_name: lorawan
-    restart: always
-    env_file:
-      - .env
-    networks:
-      - backend
+  ################################################
+  ####           Frontend Setup             #####
+  ###############################################
 
   frontend:
     image: docker.pkg.github.com/vives-projectwerk-2-2020/frontend/particula-frontend-dev
@@ -131,6 +66,88 @@ services:
       - traefik.http.middlewares.frontend.compress=true
       - traefik.http.routers.frontend.middlewares=frontend@docker
 
+  ################################################
+  ####            Grafana Setup             #####
+  ###############################################
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/etc/grafana/dashboards
+    depends_on:
+      - influxdb
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - web
+      - backend
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grafana.rule=Host(`grafana.${DOMAIN}`)
+      - traefik.http.routers.grafana.tls=true
+      - traefik.http.routers.grafana.tls.certresolver=le
+      - traefik.http.middlewares.grafana.compress=true
+      - traefik.http.routers.grafana.middlewares=grafana@docker
+
+  ################################################
+  ####          InfluxDB Setup              #####
+  ###############################################
+
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    volumes:
+      - influxdb-storage:/var/lib/influxdb
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - backend
+
+  ################################################
+  ####           LoRaWAN Setup              #####
+  ###############################################
+
+  lorawan: 
+    image: docker.pkg.github.com/vives-projectwerk-2-2020/lorawan-listener/particula-lorawan-listener-dev
+    container_name: lorawan
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - backend
+  
+  ################################################
+  ####           Backend Setup              #####
+  ###############################################
+
+  backend:
+    image: docker.pkg.github.com/vives-projectwerk-2-2020/back-end/particula-back-end-dev
+    container_name: backend
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - 8080:3000
+    networks:
+      - backend
+    
+  ################################################
+  ####               DB Setup               #####
+  ###############################################
+
+  db:
+    image: mariadb
+    container_name: db
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - backend
+
 networks:
   web:
     external: true
@@ -139,5 +156,4 @@ networks:
 
 volumes:
   influxdb-storage:
-  grafana-storage:
   db:
