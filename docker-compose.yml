@@ -112,7 +112,7 @@ services:
   ###############################################
 
   lorawan: 
-    image: docker.pkg.github.com/vives-projectwerk-2-2020/lorawan-listener/particula-lorawan-listener:develop
+    image: docker.pkg.github.com/vives-projectwerk-2-2020/lorawan-listener/particula-lorawan-listener:dev
     container_name: lorawan
     restart: always
     env_file:
@@ -125,7 +125,7 @@ services:
   ###############################################
 
   backend:
-    image: docker.pkg.github.com/vives-projectwerk-2-2020/back-end/particula-back-end:dev
+    image: docker.pkg.github.com/vives-projectwerk-2-2020/back-end/particula-back-end:develop
     container_name: backend
     restart: always
     env_file:
