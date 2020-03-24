@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 1,
-  "iteration": 1585041304329,
+  "iteration": 1585045289963,
   "links": [],
   "panels": [
     {
@@ -493,8 +493,8 @@
       "scopedVars": {
         "sensor": {
           "selected": true,
-          "text": "nico-prototype-l432",
-          "value": "nico-prototype-l432"
+          "text": "lora-rfm95w-maximva",
+          "value": "lora-rfm95w-maximva"
         }
       },
       "title": "Historical - $sensor",
@@ -538,8 +538,8 @@
       "scopedVars": {
         "sensor": {
           "selected": true,
-          "text": "nico-prototype-l432",
-          "value": "nico-prototype-l432"
+          "text": "lora-rfm95w-maximva",
+          "value": "lora-rfm95w-maximva"
         }
       },
       "seriesOverrides": [],
@@ -664,8 +664,8 @@
       "scopedVars": {
         "sensor": {
           "selected": true,
-          "text": "nico-prototype-l432",
-          "value": "nico-prototype-l432"
+          "text": "lora-rfm95w-maximva",
+          "value": "lora-rfm95w-maximva"
         }
       },
       "seriesOverrides": [],
@@ -790,8 +790,8 @@
       "scopedVars": {
         "sensor": {
           "selected": true,
-          "text": "nico-prototype-l432",
-          "value": "nico-prototype-l432"
+          "text": "lora-rfm95w-maximva",
+          "value": "lora-rfm95w-maximva"
         }
       },
       "seriesOverrides": [],
@@ -916,8 +916,8 @@
       "scopedVars": {
         "sensor": {
           "selected": true,
-          "text": "nico-prototype-l432",
-          "value": "nico-prototype-l432"
+          "text": "lora-rfm95w-maximva",
+          "value": "lora-rfm95w-maximva"
         }
       },
       "seriesOverrides": [],
@@ -1042,8 +1042,8 @@
       "scopedVars": {
         "sensor": {
           "selected": true,
-          "text": "nico-prototype-l432",
-          "value": "nico-prototype-l432"
+          "text": "lora-rfm95w-maximva",
+          "value": "lora-rfm95w-maximva"
         }
       },
       "seriesOverrides": [],
@@ -1140,9 +1140,8 @@
       {
         "allValue": null,
         "current": {
-          "selected": false,
-          "text": "nico-prototype-l432",
-          "value": "nico-prototype-l432"
+          "text": "lora-rfm95w-maximva",
+          "value": "lora-rfm95w-maximva"
         },
         "datasource": "InfluxDB",
         "definition": "SHOW TAG VALUES FROM \"sensors\" WITH KEY = \"sensor_id\"",
@@ -1167,7 +1166,7 @@
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-2d",
     "to": "now"
   },
   "timepicker": {
@@ -1190,5 +1189,5 @@
   "variables": {
     "list": []
   },
-  "version": 3
+  "version": 2
 }
