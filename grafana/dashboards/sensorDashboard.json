@@ -16,60 +16,60 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 1,
-  "iteration": 1583917490282,
+  "iteration": 1585045289963,
   "links": [],
   "panels": [
     {
-      "cacheTimeout": null,
-      "datasource": "InfluxDB",
+      "collapsed": false,
+      "datasource": null,
       "gridPos": {
-        "h": 8,
+        "h": 1,
         "w": 24,
         "x": 0,
         "y": 0
       },
-      "id": 2,
-      "links": [],
+      "id": 14,
+      "panels": [],
+      "title": "Live - $sensor",
+      "type": "row"
+    },
+    {
+      "datasource": "InfluxDB",
+      "gridPos": {
+        "h": 8,
+        "w": 5,
+        "x": 0,
+        "y": 1
+      },
+      "id": 20,
       "options": {
         "fieldOptions": {
           "calcs": [
-            "lastNotNull"
+            "mean"
           ],
           "defaults": {
-            "decimals": 2,
-            "mappings": [
-              {
-                "id": 0,
-                "op": "=",
-                "text": "N/A",
-                "type": 1,
-                "value": "null"
-              }
-            ],
-            "nullValueMode": "connected",
+            "mappings": [],
+            "max": 50,
+            "min": -20,
             "thresholds": {
               "mode": "absolute",
               "steps": [
                 {
                   "color": "green",
                   "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
                 }
               ]
             },
-            "unit": "none"
+            "unit": "celsius"
           },
           "overrides": [],
           "values": false
         },
-        "orientation": "horizontal",
+        "orientation": "auto",
         "showThresholdLabels": false,
         "showThresholdMarkers": false
       },
-      "pluginVersion": "6.6.1",
+      "pluginVersion": "6.7.0",
       "targets": [
         {
           "groupBy": [
@@ -87,8 +87,8 @@
             }
           ],
           "orderByTime": "ASC",
-          "policy": "InfluxDB",
-          "query": "SELECT temperature, humidity, pm10, pm25 from sensors where sensor_id =~ /$sensor/",
+          "policy": "default",
+          "query": "SELECT temperature from sensors where sensor_id =~ /$sensor/",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -111,8 +111,394 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "live data - $sensor",
+      "title": "Temperature",
       "type": "gauge"
+    },
+    {
+      "datasource": "InfluxDB",
+      "gridPos": {
+        "h": 8,
+        "w": 5,
+        "x": 5,
+        "y": 1
+      },
+      "id": 21,
+      "options": {
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "mappings": [],
+            "max": 100,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "humidity"
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "auto",
+        "showThresholdLabels": false,
+        "showThresholdMarkers": false
+      },
+      "pluginVersion": "6.7.0",
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT humidity from sensors where sensor_id =~ /$sensor/",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Humidity",
+      "type": "gauge"
+    },
+    {
+      "datasource": "InfluxDB",
+      "gridPos": {
+        "h": 8,
+        "w": 5,
+        "x": 10,
+        "y": 1
+      },
+      "id": 22,
+      "options": {
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "mappings": [],
+            "max": 1070,
+            "min": 960,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "pressurehpa"
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "auto",
+        "showThresholdLabels": false,
+        "showThresholdMarkers": false
+      },
+      "pluginVersion": "6.7.0",
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT pressure from sensors where sensor_id =~ /$sensor/",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Pressure",
+      "type": "gauge"
+    },
+    {
+      "datasource": "InfluxDB",
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 15,
+        "y": 1
+      },
+      "id": 23,
+      "options": {
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "mappings": [],
+            "max": 430,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "dark-green",
+                  "value": null
+                },
+                {
+                  "color": "light-green",
+                  "value": 50
+                },
+                {
+                  "color": "super-light-yellow",
+                  "value": 100
+                },
+                {
+                  "color": "semi-dark-orange",
+                  "value": 250
+                },
+                {
+                  "color": "dark-red",
+                  "value": 350
+                },
+                {
+                  "color": "rgb(230, 0, 26)",
+                  "value": 430
+                }
+              ]
+            },
+            "unit": "conμgm3"
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "auto",
+        "showThresholdLabels": false,
+        "showThresholdMarkers": false
+      },
+      "pluginVersion": "6.7.0",
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT pm10 from sensors where sensor_id =~ /$sensor/",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "PM10",
+      "type": "gauge"
+    },
+    {
+      "datasource": "InfluxDB",
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 19,
+        "y": 1
+      },
+      "id": 24,
+      "options": {
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "mappings": [],
+            "max": 250,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "#EAB839",
+                  "value": 30
+                },
+                {
+                  "color": "#6ED0E0",
+                  "value": 60
+                },
+                {
+                  "color": "#EF843C",
+                  "value": 90
+                },
+                {
+                  "color": "#E24D42",
+                  "value": 120
+                },
+                {
+                  "color": "#1F78C1",
+                  "value": 250
+                }
+              ]
+            },
+            "unit": "conμgm3"
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "auto",
+        "showThresholdLabels": false,
+        "showThresholdMarkers": false
+      },
+      "pluginVersion": "6.7.0",
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT pm25 from sensors where sensor_id =~ /$sensor/",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "PM2.5",
+      "type": "gauge"
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "id": 12,
+      "panels": [],
+      "repeat": "sensor",
+      "scopedVars": {
+        "sensor": {
+          "selected": true,
+          "text": "lora-rfm95w-maximva",
+          "value": "lora-rfm95w-maximva"
+        }
+      },
+      "title": "Historical - $sensor",
+      "type": "row"
     },
     {
       "aliasColors": {},
@@ -126,7 +512,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 8
+        "y": 10
       },
       "hiddenSeries": false,
       "id": 4,
@@ -135,7 +521,7 @@
         "current": false,
         "max": false,
         "min": false,
-        "show": true,
+        "show": false,
         "total": false,
         "values": false
       },
@@ -149,6 +535,13 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
+      "scopedVars": {
+        "sensor": {
+          "selected": true,
+          "text": "lora-rfm95w-maximva",
+          "value": "lora-rfm95w-maximva"
+        }
+      },
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
@@ -212,7 +605,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "celsius",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -245,7 +638,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 8
+        "y": 10
       },
       "hiddenSeries": false,
       "id": 8,
@@ -254,7 +647,7 @@
         "current": false,
         "max": false,
         "min": false,
-        "show": true,
+        "show": false,
         "total": false,
         "values": false
       },
@@ -268,6 +661,13 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
+      "scopedVars": {
+        "sensor": {
+          "selected": true,
+          "text": "lora-rfm95w-maximva",
+          "value": "lora-rfm95w-maximva"
+        }
+      },
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
@@ -331,7 +731,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "humidity",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -364,7 +764,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 16
+        "y": 18
       },
       "hiddenSeries": false,
       "id": 9,
@@ -373,7 +773,7 @@
         "current": false,
         "max": false,
         "min": false,
-        "show": true,
+        "show": false,
         "total": false,
         "values": false
       },
@@ -387,6 +787,13 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
+      "scopedVars": {
+        "sensor": {
+          "selected": true,
+          "text": "lora-rfm95w-maximva",
+          "value": "lora-rfm95w-maximva"
+        }
+      },
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
@@ -434,7 +841,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "pm10",
+      "title": "PM10",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -450,7 +857,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "conμgm3",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -483,7 +890,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 16
+        "y": 18
       },
       "hiddenSeries": false,
       "id": 10,
@@ -492,7 +899,7 @@
         "current": false,
         "max": false,
         "min": false,
-        "show": true,
+        "show": false,
         "total": false,
         "values": false
       },
@@ -506,6 +913,13 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
+      "scopedVars": {
+        "sensor": {
+          "selected": true,
+          "text": "lora-rfm95w-maximva",
+          "value": "lora-rfm95w-maximva"
+        }
+      },
       "seriesOverrides": [],
       "spaceLength": 10,
       "stack": false,
@@ -553,7 +967,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "pm25",
+      "title": "PM2.5",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -569,7 +983,133 @@
       },
       "yaxes": [
         {
+          "format": "conμgm3",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
           "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "InfluxDB",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 26
+      },
+      "hiddenSeries": false,
+      "id": 26,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "scopedVars": {
+        "sensor": {
+          "selected": true,
+          "text": "lora-rfm95w-maximva",
+          "value": "lora-rfm95w-maximva"
+        }
+      },
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT pressure from sensors where sensor_id =~ /$sensor/",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Pressure",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "pressurehpa",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -607,6 +1147,7 @@
         "definition": "SHOW TAG VALUES FROM \"sensors\" WITH KEY = \"sensor_id\"",
         "hide": 0,
         "includeAll": false,
+        "index": -1,
         "label": null,
         "multi": false,
         "name": "sensor",
@@ -645,5 +1186,8 @@
   "timezone": "",
   "title": "Particula sensor",
   "uid": "t6CBW5wWk",
+  "variables": {
+    "list": []
+  },
   "version": 2
 }
