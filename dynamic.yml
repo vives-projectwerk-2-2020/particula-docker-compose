@@ -1,7 +1,0 @@
-## setting up the middlware for redirect to https ##
-
-http:
-    middlewares:
-        redirect:
-            redirectScheme:
-                scheme: https
