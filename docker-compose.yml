@@ -119,6 +119,19 @@ services:
       - .env
     networks:
       - backend
+
+  ################################################
+  ####              Mqtt Setup               #####
+  ###############################################
+
+  lorawan: 
+    image: docker.pkg.github.com/vives-projectwerk-2-2020/lorawan-listener/Mqtt-Broker:develop
+    container_name: mqtt
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - backend
   
   ################################################
   ####           Backend Setup              #####
