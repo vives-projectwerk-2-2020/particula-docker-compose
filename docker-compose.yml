@@ -130,6 +130,8 @@ services:
     restart: always
     env_file:
       - .env
+    ports:
+      - 1234:1234
     networks:
       - backend
   
