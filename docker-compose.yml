@@ -124,8 +124,8 @@ services:
   ####              Mqtt Setup               #####
   ###############################################
 
-  lorawan: 
-    image: docker.pkg.github.com/vives-projectwerk-2-2020/lorawan-listener/mqtt-broker:master
+  mqtt: 
+    image: docker.pkg.github.com/vives-projectwerk-2-2020/mqtt-broker/particula-mqtt-broker:master
     container_name: mqtt
     restart: always
     env_file:
