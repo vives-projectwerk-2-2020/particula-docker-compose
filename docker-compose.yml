@@ -142,13 +142,23 @@ services:
   backend:
     image: docker.pkg.github.com/vives-projectwerk-2-2020/back-end/particula-back-end:develop
     container_name: backend
+    depends_on:
+      - db
     restart: always
     env_file:
       - .env
     ports:
       - 8080:3000
     networks:
+      - web
       - backend
+    # labels:
+    #   - traefik.enable=true
+    #   - traefik.http.routers.backend.rule=Host(`${DOMAIN}`) && (PathPrefix(`/sensors`) || PathPrefix(`/hello`))
+    #   - traefik.http.routers.backend.tls=true
+    #   - traefik.http.routers.backend.tls.certresolver=le
+    #   - traefik.http.middlewares.backend.compress=true
+    #   - traefik.http.routers.frontend.middlewares=backend@docker
     
   ################################################
   ####               DB Setup               #####
@@ -161,14 +171,21 @@ services:
     env_file:
       - .env
     networks:
-      - backend
+      backend:
+        ipv4_address: ${MYSQL_HOST}
+    volumes:
+      - mariadb-storage:/var/lib/mysql
 
 networks:
   web:
     external: true
   backend:
     external: false
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.1.0.0/24
 
 volumes:
   influxdb-storage:
-  db:
+  mariadb-storage:
