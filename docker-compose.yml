@@ -1,54 +1,193 @@
 version: '3'
+
 services:
-  influxdb:
-    image: influxdb:latest
-    ports:
-      - 8086
-    volumes:
-      - influxdb-storage:/var/lib/influxdb
+  ################################################
+  ####        Traefik Proxy Setup           #####
+  ###############################################
+  traefik:
+    image: traefik:v2.0
     restart: always
-    env_file:
-      - .env
+    container_name: traefik
+    ports:
+      - "80:80"
+      - "443:443"
+    command:
+      - "--api.insecure=false"
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=web"
+      - "--entryPoints.web.address=:80"
+      - "--entryPoints.websecure.address=:443"
+      # - "--certificatesResolvers.le.acme.email=<YOUR_EMAIL>"
+      - "--certificatesResolvers.le.acme.storage=acme.json"
+      - "--certificatesResolvers.le.acme.tlsChallenge=true"
+      - "--certificatesResolvers.le.acme.httpChallenge=true"
+      - "--certificatesResolvers.le.acme.httpChallenge.entryPoint=web"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./acme.json:/acme.json
+    networks:
+      - web
+    labels:
+      # Redirect all HTTP to HTTPS permanently
+      - traefik.enable=true
+      - traefik.http.routers.http_catchall.rule=HostRegexp(`{any:.+}`)
+      - traefik.http.routers.http_catchall.entrypoints=web
+      - traefik.http.routers.http_catchall.middlewares=https_redirect
+      - traefik.http.middlewares.https_redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.https_redirect.redirectscheme.permanent=true
+
+      - traefik.http.routers.api.rule=Host(`traefik.${DOMAIN}`)
+      - traefik.http.routers.api.tls=true
+      - traefik.http.routers.api.tls.certresolver=le
+      - traefik.http.middlewares.api.compress=true
+      - traefik.http.routers.api.service=api@internal
+      - "traefik.http.routers.api.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.users=admin:$$apr1$$cEnrd5q9$$5dS1BVpWurEX5/rgXDqa/0"
+      - "traefik.http.middlewares.auth.basicauth.headerField=X-WebAuth-User"
+      - "traefik.http.middlewares.auth.basicauth.removeheader=true"
+
+  ################################################
+  ####           Frontend Setup             #####
+  ###############################################
+
+  frontend:
+    image: docker.pkg.github.com/vives-projectwerk-2-2020/frontend/particula-frontend:develop
+    container_name: frontend
+    restart: always
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.frontend.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.frontend.tls=true
+      - traefik.http.routers.frontend.tls.certresolver=le
+      - traefik.http.middlewares.frontend.compress=true
+      - traefik.http.routers.frontend.middlewares=frontend@docker
+
+  ################################################
+  ####            Grafana Setup             #####
+  ###############################################
+
   grafana:
     image: grafana/grafana:latest
-    ports:
-      - 3001:3000
+    container_name: grafana
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
       - ./grafana/dashboards:/etc/grafana/dashboards
     depends_on:
       - influxdb
     restart: always
-    environment:
-      - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
-      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
     env_file:
       - .env
-  db:
-    image: mariadb
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: example
-  backend:
-    image: docker.pkg.github.com/vives-projectwerk-2-2020/back-end/particula-back-end:master
-    restart: always
-    env_file:
-      - .env
-    ports:
-      - 8080:3000
-  lorawan: 
-    image: docker.pkg.github.com/vives-projectwerk-2-2020/lorawan-listener/particula-lorawan-listener:master
+    networks:
+      - web
+      - backend
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grafana.rule=Host(`grafana.${DOMAIN}`)
+      - traefik.http.routers.grafana.tls=true
+      - traefik.http.routers.grafana.tls.certresolver=le
+      - traefik.http.middlewares.grafana.compress=true
+      - traefik.http.routers.grafana.middlewares=grafana@docker
+
+  ################################################
+  ####          InfluxDB Setup              #####
+  ###############################################
+
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    volumes:
+      - influxdb-storage:/var/lib/influxdb
     restart: always
     env_file:
       - .env
     ports: 
-      - 5000
-  frontend:
-    image: docker.pkg.github.com/vives-projectwerk-2-2020/frontend/particula-frontend:master
+      - 8086:8086
+    networks:
+      - backend
+
+  ################################################
+  ####           LoRaWAN Setup              #####
+  ###############################################
+
+  lorawan: 
+    image: docker.pkg.github.com/vives-projectwerk-2-2020/lorawan-listener/particula-lorawan-listener:dev
+    container_name: lorawan
     restart: always
+    env_file:
+      - .env
+    networks:
+      - backend
+
+  ################################################
+  ####              Mqtt Setup               #####
+  ###############################################
+
+  mqtt: 
+    image: docker.pkg.github.com/vives-projectwerk-2-2020/mqtt-broker/particula-mqtt-broker:master
+    container_name: mqtt
+    restart: always
+    env_file:
+      - .env
     ports:
-      - 80:80
+      - 1234:1234
+    networks:
+      - backend
+  
+  ################################################
+  ####           Backend Setup              #####
+  ###############################################
+
+  backend:
+    image: docker.pkg.github.com/vives-projectwerk-2-2020/back-end/particula-back-end:develop
+    container_name: backend
+    depends_on:
+      - db
+    restart: always
+    env_file:
+      - .env
+    # ports:
+    #   - 8080:3000
+    networks:
+      - web
+      - backend
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.backend.rule=Host(`${DOMAIN}`) && (PathPrefix(`/sensors`) || PathPrefix(`/hello`)) || PathPrefix(`/measurements`)) || PathPrefix(`/users`))
+      - traefik.http.routers.backend.tls=true
+      - traefik.http.routers.backend.tls.certresolver=le
+      - traefik.http.middlewares.backend.compress=true
+      - traefik.http.routers.backend.middlewares=backend@docker
+    
+  ################################################
+  ####               DB Setup               #####
+  ###############################################
+
+  db:
+    image: mariadb
+    container_name: db
+    restart: always
+    env_file:
+      - .env
+    networks:
+      backend:
+        ipv4_address: ${MYSQL_HOST}
+    volumes:
+      - mariadb-storage:/var/lib/mysql
+
+networks:
+  web:
+    external: true
+  backend:
+    external: false
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.1.0.0/24
+
 volumes:
   influxdb-storage:
-  grafana-storage:
-  db:
+  mariadb-storage:
