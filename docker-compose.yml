@@ -149,18 +149,18 @@ services:
     restart: always
     env_file:
       - .env
-    ports:
-      - 8080:3000
+    # ports:
+    #   - 8080:3000
     networks:
       - web
       - backend
-    # labels:
-    #   - traefik.enable=true
-    #   - traefik.http.routers.backend.rule=Host(`${DOMAIN}`) && (PathPrefix(`/sensors`) || PathPrefix(`/hello`))
-    #   - traefik.http.routers.backend.tls=true
-    #   - traefik.http.routers.backend.tls.certresolver=le
-    #   - traefik.http.middlewares.backend.compress=true
-    #   - traefik.http.routers.frontend.middlewares=backend@docker
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.backend.rule=Host(`${DOMAIN}`) && (PathPrefix(`/sensors`) || PathPrefix(`/hello`)) || PathPrefix(`/measurements`)) || PathPrefix(`/users`))
+      - traefik.http.routers.backend.tls=true
+      - traefik.http.routers.backend.tls.certresolver=le
+      - traefik.http.middlewares.backend.compress=true
+      - traefik.http.routers.backend.middlewares=backend@docker
     
   ################################################
   ####               DB Setup               #####
