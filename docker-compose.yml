@@ -156,7 +156,7 @@ services:
       - backend
     labels:
       - traefik.enable=true
-      - traefik.http.routers.backend.rule=Host(`${DOMAIN}`) && (PathPrefix(`/sensors`) || PathPrefix(`/hello`)) || PathPrefix(`/measurements`)) || PathPrefix(`/users`))
+      - traefik.http.routers.backend.rule=Host(`${DOMAIN}`) && (PathPrefix(`/sensors`) || PathPrefix(`/hello`) || PathPrefix(`/measurements`) || PathPrefix(`/users`))
       - traefik.http.routers.backend.tls=true
       - traefik.http.routers.backend.tls.certresolver=le
       - traefik.http.middlewares.backend.compress=true
