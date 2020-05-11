@@ -136,6 +136,29 @@ services:
       - 1234:1234
     networks:
       - backend
+
+  ################################################
+  ####          Authentication api           #####
+  ###############################################
+
+  authentication_api: 
+    build: 
+      context: https://github.com/vives-projectwerk-2-2020/Authentication-API.git
+      dockerfile: /DevbitApi/Dockerfile
+    container_name: authentication_api
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - web
+      - backend
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.authentication_api.rule=Host(`${DOMAIN}`) && PathPrefix(`/api/user`)
+      - traefik.http.routers.authentication_api.tls=true
+      - traefik.http.routers.authentication_api.tls.certresolver=le
+      - traefik.http.middlewares.authentication_api.compress=true
+      - traefik.http.routers.authentication_api.middlewares=authentication_api@docker
   
   ################################################
   ####           Backend Setup              #####
