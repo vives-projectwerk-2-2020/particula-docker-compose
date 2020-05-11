@@ -154,7 +154,7 @@ services:
       - backend
     labels:
       - traefik.enable=true
-      - traefik.http.routers.authentication_api.rule=Host(`${DOMAIN}`) && PathPrefix(`/api/user`)
+      - traefik.http.routers.authentication_api.rule=Host(`${DOMAIN}`) && PathPrefix(`/api`)
       - traefik.http.routers.authentication_api.tls=true
       - traefik.http.routers.authentication_api.tls.certresolver=le
       - traefik.http.middlewares.authentication_api.compress=true
