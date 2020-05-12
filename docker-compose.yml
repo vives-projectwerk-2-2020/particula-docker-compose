@@ -142,9 +142,7 @@ services:
   ###############################################
 
   authentication_api: 
-    build: 
-      context: https://github.com/vives-projectwerk-2-2020/Authentication-API.git
-      dockerfile: /DevbitApi/Dockerfile
+    image: docker.pkg.github.com/vives-projectwerk-2-2020/authentication-api/particula-authentication-api:master
     container_name: authentication_api
     restart: always
     env_file:
@@ -172,8 +170,6 @@ services:
     restart: always
     env_file:
       - .env
-    # ports:
-    #   - 8080:3000
     networks:
       - web
       - backend
