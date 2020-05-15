@@ -114,7 +114,7 @@ services:
   ###############################################
 
   lorawan: 
-    image: docker.pkg.github.com/vives-projectwerk-2-2020/lorawan-listener/particula-lorawan-listener:${BRANCH_LORAWAN}
+    image: docker.pkg.github.com/vives-projectwerk-2-2020/lorawan-listener/particula-lorawan-listener:${BRANCH}
     container_name: lorawan
     restart: always
     env_file:
