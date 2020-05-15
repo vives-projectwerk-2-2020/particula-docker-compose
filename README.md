@@ -1,5 +1,15 @@
 # Particula Docker Compose
 
+- [UML diagram](#uml-diagram)
+- [Docker and Docker Compose introduction](#docker-and-docker-compose-introduction)
+  - [What is Docker](#what-is-docker)
+  - [Installing Docker](#installing-docker)
+  - [Important commands](#important-commands)
+- [Containers](#containers)
+- [Environment variables](#environment-variables)
+- [Docker Image on the Server](#docker-image-on-the-server)
+- [Unfinished](#unfinished)
+
 ## UML diagram
 
 ![uml diagram](images/uml-project.png)
@@ -27,7 +37,8 @@ sudo apt-get install docker-compose
 
 #### Installation on Windows
 
-You need to get the docker toolbox. `https://github.com/docker/toolbox/releases`
+You need to get the docker toolbox.
+`https://github.com/docker/toolbox/releases`
 
 Get the latest `.exe` version for the toolbox.
 
@@ -92,82 +103,83 @@ docker kill particula-docker-compose_frontend_1
 docker kill $(docker ps -q)
 ```
 
-### Connecting to the services
+## Containers
 
-#### Connecting to Backend on Linux
+The project uses 9 containers in total,
+this section gives a bit more information about them.
+For more detailed information about them
+there will be a link to the github repo if applicable.
 
-In your browser, go to : `localhost/<route>`
+### Traefik
 
-#### Connecting to Grafana on Linux
+For the communication between all containers Traefik is used,
+this means there is no need to leave any port open.
+This service is configured to use a `HTTP challenge` for HTTPS
+which requires to create a empty `acme.json` file.
+The Traefik dashboard can be visited at `traefik.<host>`
+and is secured with a login, the user can be configured
+in `docker-compose.yml` under `traefik` change the `basic auth` labels.
+For more information about Traefik ["click here"](https://docs.traefik.io).
 
-In your browser, go to : `grafana.localhost`
+### Frontend
 
-#### Connecting to Front-end on Linux
+More information about the frontend can be found at:
+[github Frontend](https://github.com/vives-projectwerk-2-2020/Frontend)
 
-In your browser, go to : `localhost`
+### Grafana
 
-#### Connecting to services on Windows
+To quickly view the data of a sensor a Grafana dashboard
+is made and is mapped on a subdomain `grafana.<host>`.
 
-Check your Docker_Toolbox machine IP and in your browser go to: `machineip:port`
+### InfluxDB
 
-##### Connecting to Backend on Windows
+The data from a sensor is send to a InfluxDB,
+more information about the data can be found in the backend project at:
+[github Backend](https://github.com/vives-projectwerk-2-2020/back-end).
 
-In your browser, go to : `machineip/<route>`
+### LoRaWAN
 
-##### Connecting to Grafana on Windows
+The LoRaWAN container connects to The Things Network
+and sends the data to the InfluxDB.
 
-In your browser, go to : `grafana.machineip`
+### MQTT
 
-##### Connecting to Front-end on Windows
+An MQTT container is setup as a broker to be able to send
+live data to the Frontend.
 
-In your browser, go to : `machineip`
+### Authentication api
 
-## InfluxDB
+The login page of the frontend uses an authentication api
+which is running in this container.
+More information about this api can be found at:
+[github link](https://github.com/vives-projectwerk-2-2020/Authentication-API).
 
-`https://docs.influxdata.com/influxdb/v1.7/tools/api/`
+### Backend
 
-### Sending data with Postman
+The Backend container houses the api for retrieving information about
+sensors and their measurements. More information about
+the routes available can be found at:
+[github Backend](https://github.com/vives-projectwerk-2-2020/back-end).
 
-To push data to `particulaInfluxDB` with postman create following POST request:
+### DB
 
-```http
-POST http://localhost:8086/write?db=particulaInfluxDB&precision=s
-```
-
-body
-
-```markdown
-sensors,sensor_id=sensor-test humidity=59,pm10=23,pm25=12,temperature=21.5 1581880318
-```
-
-### Viewing data with Postman
-
-In case the port is left unchanged (can be checked with docker ps)
-following is an example to view all data within `sensors`:
-
-```http
-GET http://localhost:8086/query?db=particulaInfluxDB&q=select * from sensors
-```
-
-### Clearing series
-
-To remove all data in a measurement execute following query:
-
-```sql
-DROP SERIES FROM sensors
-```
+The final container DB uses the MariaDB image and provides
+the data for the backend.
 
 ## Environment variables
 
-For this project quite a few environment variables are used in a `.env` file. The first ones being for setting the domain name which is set to `localhost` by default. Followed by the branch you want to use to quickly switch between `master` and `develop`.
+For this project quite a few environment variables are used in a `.env` file.
+The first ones being for setting the domain name which is set to `localhost`
+by default. Followed by the branch you want to use to quickly switch
+between `master` and `develop`.
 
 ```bash
 DOMAIN=localhost
 BRANCH=
-BRANCH_LORAWAN=
 ```
 
-Next are the variables used for connecting to The Things Network and the IP of our MQTT Broker.
+Next are the variables used for connecting to The Things Network and
+the IP of our MQTT Broker.
 
 ```bash
 APP_ID=
@@ -175,7 +187,8 @@ ACCESSKEY=
 REAL_TIME_IP=
 ```
 
-After that you will need to configure the InfluxDB, this is where the sensordata is being send to.
+After that you will need to configure the InfluxDB, this is where
+the sensordata is being send to.
 
 ```bash
 INFLUX_IP=
@@ -183,7 +196,8 @@ INFLUX_PORT=
 INFLUX_DB_NAME=
 ```
 
-A Grafana container is used to have a quick overview of the sensors and their data.
+A Grafana container is used to have a quick overview
+of the sensors and their data.
 Sinc this is configured on a subdomain you will need to set a `ROOT_URL` and
 the `SUB_PATH` it will be served at. Also the admin user can be preconfigured.
 
@@ -194,7 +208,8 @@ GF_SECURITY_ADMIN_PASSWORD=
 GF_SERVER_SERVE_FROM_SUB_PATH=
 ```
 
-Next is the MySQL container which stores information about `users` and `sensors`.
+Next is the MySQL container which stores information about `users`
+and `sensors`.
 
 ```bash
 MYSQL_ROOT_PASSWORD=
@@ -205,7 +220,8 @@ MYSQL_USER=
 MYSQL_PASSWORD=
 ```
 
-At last there is a `authentication-api` for creating and authenticating users which requires one variable to be set.
+At last there is a `authentication-api` for creating and authenticating
+users which requires one variable to be set.
 
 ```bash
 ASPNETCORE_URLS=
