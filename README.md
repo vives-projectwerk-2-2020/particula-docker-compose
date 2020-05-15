@@ -124,7 +124,7 @@ For more information about Traefik ["click here"](https://docs.traefik.io).
 ### Frontend
 
 More information about the frontend can be found at:
-[GitHub](https://github.com/vives-projectwerk-2-2020/Frontend)
+[GitHub](https://github.com/vives-projectwerk-2-2020/Frontend).
 
 ### Grafana
 
