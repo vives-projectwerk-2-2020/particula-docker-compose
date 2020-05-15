@@ -124,7 +124,7 @@ For more information about Traefik ["click here"](https://docs.traefik.io).
 ### Frontend
 
 More information about the frontend can be found at:
-[github Frontend](https://github.com/vives-projectwerk-2-2020/Frontend)
+[GitHub](https://github.com/vives-projectwerk-2-2020/Frontend)
 
 ### Grafana
 
@@ -135,7 +135,7 @@ is made and is mapped on a subdomain `grafana.<host>`.
 
 The data from a sensor is send to a InfluxDB,
 more information about the data can be found in the backend project at:
-[github Backend](https://github.com/vives-projectwerk-2-2020/back-end).
+[GitHub](https://github.com/vives-projectwerk-2-2020/back-end).
 
 ### LoRaWAN
 
@@ -152,14 +152,14 @@ live data to the Frontend.
 The login page of the frontend uses an authentication api
 which is running in this container.
 More information about this api can be found at:
-[github link](https://github.com/vives-projectwerk-2-2020/Authentication-API).
+[GitHub](https://github.com/vives-projectwerk-2-2020/Authentication-API).
 
 ### Backend
 
 The Backend container houses the api for retrieving information about
 sensors and their measurements. More information about
 the routes available can be found at:
-[github Backend](https://github.com/vives-projectwerk-2-2020/back-end).
+[GitHub](https://github.com/vives-projectwerk-2-2020/back-end).
 
 ### DB
 
