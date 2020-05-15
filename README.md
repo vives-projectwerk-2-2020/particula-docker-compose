@@ -235,3 +235,9 @@ Run this command on your server:
  docker login -u USERNAME docker.pkg.github.com
  -> ACCESTOKEN
 ```
+
+### Unfinished
+
+- Make Traefik independent from docker-compose
+- Continous integration
+- Status page
